@@ -23,18 +23,30 @@ emailInput.addEventListener("change", datosCitas);
 fechaInput.addEventListener("change", datosCitas);
 sintomasInput.addEventListener("change", datosCitas);
 
-formulario.addEventListener("submit", submitCita)
+formulario.addEventListener("submit", submitCita);
 
 // Funciones
 function datosCitas(e) {
   citaObj[e.target.name] = e.target.value;
-  console.log(citaObj);
+  // console.log(citaObj);
 }
 
-function submitCita(e){
+function submitCita(e) {
   e.preventDefault();
 
-  if(Object.values(citaObj).some(valor.trim() === "")){
-    console.log("Faltan datos");
+  if (Object.values(citaObj).some(valor => valor.trim() === "")) {
+    const notificacion = new Notificacion({
+      texto: "Todos los campos son obligatorios",
+      tipo: "error"
+    });
+    console.log(notificacion);
+    return;
+  }
+}
+
+class Notificacion {
+  constructor({texto, tipo}) {
+    this.texto = texto;
+    this.tipo = tipo;
   }
 }
