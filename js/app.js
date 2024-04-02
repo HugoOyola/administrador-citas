@@ -6,6 +6,7 @@ const fechaInput = document.querySelector("#fecha");
 const sintomasInput = document.querySelector("#sintomas");
 
 const formulario = document.querySelector("#formulario-cita");
+const contenedorCitas = document.querySelector("#citas");
 
 // EventListeners
 pacienteInput.addEventListener("change", datosCitas);
@@ -63,26 +64,28 @@ class AdminCitas{
 
   agregarCita(cita){
     this.citas = [...this.citas, cita];
+    this.mostrarCitas();
   }
 
   mostrarCitas(){
+    // Limpiar el HTML
+    while(contenedorCitas.firstChild){
+      contenedorCitas.removeChild(contenedorCitas.firstChild);
+    }
+
     this.citas.forEach(cita => {
-      const {paciente, propietario, email, fecha, sintomas} = cita;
-
       const divCita = document.createElement("DIV");
-      divCita.classList.add("p-3", "mt-2", "bg-white", "shadow", "rounded");
+      divCita.classList.add("mx-5", 'my-10', 'bg-white', 'shadow-md', 'px-5', 'py-10', 'rounded-xl');
 
-      divCita.innerHTML = `
-        <p class="font-bold">Paciente: <span class="font-normal">${paciente}</span></p>
-        <p class="font-bold">Propietario: <span class="font-normal">${propietario}</span></p>
-        <p class="font-bold">Email: <span class="font-normal">${email}</span></p>
-        <p class="font-bold">Fecha: <span class="font-normal">${fecha}</span></p>
-        <p class="font-bold">Síntomas: <span class="font-normal">${sintomas}</span></p>
-      `;
+      const paciente = document.createElement("P");
+      paciente.classList.add("font-normal", "mb-3", "text-gray-700","normal-case");
+      paciente.innerHTML = `<span class="font-bold uppercase">Paciente:</span> ${cita.paciente}`;
 
-      const listadoCitas = document.querySelector("#citas");
-      listadoCitas.appendChild(divCita);
-    });
+      // Insertar en el HTML
+      divCita.appendChild(paciente);
+
+      contenedorCitas.appendChild(divCita);
+    })
   }
 }
 
@@ -106,5 +109,5 @@ function submitCita(e) {
     return;
   }
 
-  citas.agregarCita({...citaObj});
+  citas.agregarCita(citaObj);
 }
